@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>InsightOS — Executive Intelligence Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B2545;
+    --teal:#1B998B;
+    --teal-dim:#E4F3F1;
+    --red:#B23A2E;
+    --red-dim:#FBEAE8;
+    --amber:#C8842A;
+    --amber-dim:#FBF1E1;
+    --green:#2E8B57;
+    --green-dim:#E7F4EC;
+    --paper:#F6F8F9;
+    --card:#FFFFFF;
+    --line:#E1E7EA;
+    --muted:#5C6B73;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:36px 28px 64px;}
+
+  /* header */
+  .masthead{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    border-bottom:2px solid var(--ink);
+    padding-bottom:18px;
+    margin-bottom:22px;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-mark{
+    width:38px;height:38px;border-radius:9px;
+    background:linear-gradient(135deg,var(--ink),var(--teal));
+    position:relative;flex-shrink:0;
+  }
+  .brand-mark svg{position:absolute;inset:0;margin:auto;}
+  .brand-text .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;letter-spacing:.12em;color:var(--teal);
+    text-transform:uppercase;font-weight:600;
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:28px;margin:2px 0 0;font-weight:700;letter-spacing:-.01em;
+  }
+  .meta{text-align:right;font-size:12.5px;color:var(--muted);line-height:1.6;}
+  .meta b{color:var(--ink);}
+
+  /* vitals strip */
+  .vitals{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-bottom:30px;
+  }
+  .vital{
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:16px 18px;position:relative;overflow:hidden;
+  }
+  .vital::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--bar,var(--teal));
+  }
+  .vital .label{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;
+    color:var(--muted);text-transform:uppercase;margin-bottom:6px;
+  }
+  .vital .value{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;line-height:1;}
+  .vital .sub{font-size:12px;color:var(--muted);margin-top:5px;}
+
+  /* pulse divider */
+  .pulse{width:100%;height:22px;margin:2px 0 30px;opacity:.85;}
+
+  /* section grid */
+  .grid{display:grid;grid-template-columns:1.35fr 1fr;gap:20px;}
+  .col{display:flex;flex-direction:column;gap:20px;}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:20px 22px;
+  }
+  .card h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:15.5px;font-weight:600;margin:0 0 14px;
+    display:flex;align-items:center;gap:9px;letter-spacing:.01em;
+  }
+  .card h2 .ic{font-size:16px;}
+  .card p{font-size:13.5px;line-height:1.65;color:#33454D;margin:0 0 10px;}
+  .card p:last-child{margin-bottom:0;}
+
+  table{width:100%;border-collapse:collapse;font-size:12.8px;}
+  th{
+    text-align:left;font-family:'IBM Plex Mono',monospace;font-weight:600;
+    font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--muted);padding:7px 8px;border-bottom:1.5px solid var(--ink);
+  }
+  td{padding:8px 8px;border-bottom:1px solid var(--line);color:#2A3B42;}
+  tr:last-child td{border-bottom:none;}
+  td.mono, th.mono{font-family:'IBM Plex Mono',monospace;}
+
+  .pill{
+    display:inline-block;padding:2.5px 9px;border-radius:20px;
+    font-size:11px;font-weight:600;font-family:'IBM Plex Mono',monospace;
+    white-space:nowrap;
+  }
+  .pill.done{background:var(--green-dim);color:var(--green);}
+  .pill.progress{background:var(--amber-dim);color:var(--amber);}
+  .pill.pending{background:#EEF1F3;color:var(--muted);}
+  .pill.notstarted{background:#EEF1F3;color:var(--muted);}
+  .pill.high{background:var(--red-dim);color:var(--red);}
+  .pill.medium{background:var(--amber-dim);color:var(--amber);}
+  .pill.low{background:var(--teal-dim);color:var(--teal);}
+
+  ul.clean{margin:0;padding:0;list-style:none;}
+  ul.clean li{
+    padding:8px 0 8px 20px;position:relative;font-size:13.3px;line-height:1.55;
+    color:#2A3B42;border-bottom:1px solid var(--line);
+  }
+  ul.clean li:last-child{border-bottom:none;}
+  ul.clean li::before{
+    content:"";position:absolute;left:0;top:14px;width:7px;height:7px;border-radius:2px;
+    background:var(--teal);
+  }
+  ul.clean.risk li::before{background:var(--red);}
+  ul.clean.action li::before{background:var(--ink);}
+
+  .progress-track{
+    width:100%;height:10px;background:#EEF1F3;border-radius:6px;overflow:hidden;margin-top:4px;
+  }
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--ink));border-radius:6px;}
+
+  .risk-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);}
+  .risk-row:last-child{border-bottom:none;}
+  .risk-tag{flex-shrink:0;width:56px;}
+  .risk-body{font-size:13px;line-height:1.5;color:#2A3B42;}
+  .risk-body b{color:var(--ink);}
+  .risk-body .mit{display:block;margin-top:3px;color:var(--muted);font-size:12px;}
+
+  .flag{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--red);
+    background:var(--red-dim);border-radius:6px;padding:8px 10px;margin-top:10px;
+  }
+  .not-found{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted);
+    font-style:italic;
+  }
+
+  .banner{
+    background:var(--ink);color:#fff;border-radius:12px;padding:18px 22px;
+    display:flex;justify-content:space-between;align-items:center;gap:20px;
+    margin-bottom:20px;flex-wrap:wrap;
+  }
+  .banner .l{font-size:13.5px;line-height:1.55;max-width:640px;color:#DCE7EA;}
+  .banner .l b{color:#fff;}
+  .banner .r{font-family:'Space Grotesk',sans-serif;font-size:13px;color:var(--teal);font-weight:600;white-space:nowrap;}
+
+  .cap-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  }
+  .cap{
+    display:flex;align-items:flex-start;gap:10px;
+    background:var(--teal-dim);border:1px solid var(--line);border-radius:10px;
+    padding:12px 13px;
+  }
+  .cap-ic{font-size:17px;line-height:1;margin-top:1px;flex-shrink:0;}
+  .cap b{
+    display:block;font-family:'Space Grotesk',sans-serif;font-size:12.8px;
+    font-weight:600;color:var(--ink);margin-bottom:3px;
+  }
+  .cap span{display:block;font-size:11.5px;line-height:1.45;color:var(--muted);}
+
+  @media (max-width:860px){
+    .cap-grid{grid-template-columns:1fr;}
+  }
+
+  .foot{
+    margin-top:26px;text-align:center;font-size:11px;color:var(--muted);
+    font-family:'IBM Plex Mono',monospace;letter-spacing:.03em;
+  }
+
+  @media (max-width:860px){
+    .grid{grid-template-columns:1fr;}
+    .vitals{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M2 11 L6 11 L8 4 L11 16 L13 9 L15 9 L18 11" stroke="white" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <div class="eyebrow">InsightOS · AI Knowledge Assistant</div>
+        <h1>InsightOS — Executive Intelligence Dashboard</h1>
+      </div>
+    </div>
+    <div class="meta">
+      Generated <b>July 7, 2026</b><br>
+      Source documents: <b>5</b> (Meeting Minutes, Client Requirements, Project Tracker, Project Charter, Risk Register)
+    </div>
+  </div>
+
+  <svg class="pulse" viewBox="0 0 1180 22" preserveAspectRatio="none">
+    <polyline points="0,11 260,11 280,3 300,19 320,11 900,11 920,4 940,18 960,11 1180,11"
+      fill="none" stroke="#1B998B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+
+  <div class="vitals">
+    <div class="vital" style="--bar:var(--teal)">
+      <div class="label">Overall Progress</div>
+      <div class="value">29%</div>
+      <div class="sub">2 of 7 tracked tasks complete</div>
+    </div>
+    <div class="vital" style="--bar:var(--red)">
+      <div class="label">Open High-Severity Risks</div>
+      <div class="value">2</div>
+      <div class="sub">Incomplete dataset · API delay</div>
+    </div>
+    <div class="vital" style="--bar:var(--amber)">
+      <div class="label">Next Deadline</div>
+      <div class="value">11 days</div>
+      <div class="sub">API Development — Jul 18, 2026</div>
+    </div>
+    <div class="vital" style="--bar:var(--ink)">
+      <div class="label">Client Milestone</div>
+      <div class="value">Aug 5</div>
+      <div class="sub">Dashboard delivery — unowned in tracker</div>
+    </div>
+  </div>
+
+  <div class="banner">
+    <div class="l"><b>AI Employee flag:</b> the incomplete dataset (High impact / High probability) is already an active issue, not a future risk — it can silently delay API Development and Testing if left unresolved.</div>
+    <div class="r">→ See Strategic Recommendations</div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;">
+    <h2><span class="ic">🤖</span>AI Agent Capabilities</h2>
+    <div class="cap-grid">
+      <div class="cap"><span class="cap-ic">📚</span><div><b>Multi-document understanding</b><span>Reads and interprets every uploaded file as one connected project</span></div></div>
+      <div class="cap"><span class="cap-ic">🔗</span><div><b>Cross-document reasoning</b><span>Links facts across files to surface what no single document shows alone</span></div></div>
+      <div class="cap"><span class="cap-ic">⏱</span><div><b>Task &amp; deadline extraction</b><span>Detects owners, dates, and commitments automatically</span></div></div>
+      <div class="cap"><span class="cap-ic">⚠</span><div><b>Risk detection</b><span>Flags active issues, hidden risks, and conflicts between sources</span></div></div>
+      <div class="cap"><span class="cap-ic">📄</span><div><b>Executive report generation</b><span>Produces polished, decision-ready summaries and dashboards</span></div></div>
+      <div class="cap"><span class="cap-ic">💡</span><div><b>Strategic recommendations</b><span>Prioritizes next actions based on evidence, not guesswork</span></div></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="col">
+
+      <div class="card">
+        <h2><span class="ic">📄</span>Executive Summary</h2>
+        <p>The Hospital AI Assistant project builds an AI system that reads uploaded documents, extracts tasks and deadlines, and auto-generates executive reports for hospital staff. Budget is <b>$120,000</b>; runtime is <b>July–October 2026</b>; success is defined as a <b>60% reduction</b> in manual reporting time.</p>
+        <p>Foundational work (UI, database) is complete. The critical path — API integration, authentication, testing — is in progress or pending, and carries the project's real schedule risk. Two client-driven commitments (Arabic/English support, Aug 5 dashboard) add near-term delivery pressure on top of the internal build schedule.</p>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">📅</span>Timeline</h2>
+        <table>
+          <tr><th>Milestone</th><th>Date</th><th class="mono">Source</th></tr>
+          <tr><td>UI complete</td><td class="mono">Jul 15</td><td class="mono">Tracker</td></tr>
+          <tr><td>Database complete</td><td class="mono">Jul 16</td><td class="mono">Tracker</td></tr>
+          <tr><td>API development complete</td><td class="mono">Jul 18</td><td class="mono">Tracker / Minutes</td></tr>
+          <tr><td>Authentication complete</td><td class="mono">Jul 19</td><td class="mono">Tracker</td></tr>
+          <tr><td>Testing complete</td><td class="mono">Jul 20</td><td class="mono">Tracker / Minutes</td></tr>
+          <tr><td>Deployment</td><td class="mono">Jul 28</td><td class="mono">Tracker</td></tr>
+          <tr><td>Documentation complete</td><td class="mono">Jul 30</td><td class="mono">Tracker</td></tr>
+          <tr><td><b>Client dashboard delivery</b></td><td class="mono">Aug 5</td><td class="mono">Minutes only</td></tr>
+        </table>
+        <div class="flag">⚠ Testing window is only 2 days after API completion (Jul 18 → Jul 20) — no documented buffer.</div>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">👥</span>Team Responsibilities</h2>
+        <table>
+          <tr><th>Owner</th><th>Task</th><th>Priority</th><th class="mono">Deadline</th></tr>
+          <tr><td>Sara</td><td>UI Design</td><td><span class="pill high">High</span></td><td class="mono">Jul 15</td></tr>
+          <tr><td>Ahmed</td><td>API Development</td><td><span class="pill high">High</span></td><td class="mono">Jul 18</td></tr>
+          <tr><td>Ali</td><td>Database</td><td><span class="pill medium">Medium</span></td><td class="mono">Jul 16</td></tr>
+          <tr><td>Noor</td><td>Authentication</td><td><span class="pill high">High</span></td><td class="mono">Jul 19</td></tr>
+          <tr><td>Mona</td><td>Testing</td><td><span class="pill high">High</span></td><td class="mono">Jul 20</td></tr>
+          <tr><td>Omar</td><td>Deployment</td><td><span class="pill medium">Medium</span></td><td class="mono">Jul 28</td></tr>
+          <tr><td>Lina</td><td>Documentation</td><td><span class="pill low">Low</span></td><td class="mono">Jul 30</td></tr>
+        </table>
+        <p class="not-found">Role titles (Project Manager, AI Engineer, Backend Developer, QA Lead) appear only in Meeting Minutes; a name-to-role mapping is not found in the uploaded documents.</p>
+      </div>
+
+    </div>
+
+    <div class="col">
+
+      <div class="card">
+        <h2><span class="ic">📊</span>Progress</h2>
+        <div class="progress-track"><div class="progress-fill" style="width:29%"></div></div>
+        <p style="margin-top:8px;">2 of 7 tasks complete · 1 in progress · 4 pending/not started</p>
+        <table>
+          <tr><th>Task</th><th>Status</th></tr>
+          <tr><td>UI Design</td><td><span class="pill done">Completed</span></td></tr>
+          <tr><td>Database</td><td><span class="pill done">Completed</span></td></tr>
+          <tr><td>API Development</td><td><span class="pill progress">In Progress</span></td></tr>
+          <tr><td>Authentication</td><td><span class="pill pending">Pending</span></td></tr>
+          <tr><td>Testing</td><td><span class="pill pending">Pending</span></td></tr>
+          <tr><td>Deployment</td><td><span class="pill pending">Pending</span></td></tr>
+          <tr><td>Documentation</td><td><span class="pill notstarted">Not Started</span></td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">⚠</span>Risks</h2>
+        <div class="risk-row">
+          <div class="risk-tag"><span class="pill high">High</span></div>
+          <div class="risk-body"><b>Incomplete dataset</b> — High probability, no linked task/owner for resolution.
+            <span class="mit">Mitigation: collect additional data</span>
+          </div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-tag"><span class="pill high">High</span></div>
+          <div class="risk-body"><b>API delay</b> — Medium probability; API documentation is already reported delayed in Meeting Minutes.
+            <span class="mit">Mitigation: add backup developer</span>
+          </div>
+        </div>
+        <div class="risk-row">
+          <div class="risk-tag"><span class="pill medium">Med</span></div>
+          <div class="risk-body"><b>Late UI change requests</b> — could reopen a task already marked Completed.
+            <span class="mit">Mitigation: freeze requirements after review</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="ic">✅</span>Detected Tasks &amp; Decisions</h2>
+        <ul class="clean">
+          <li><b>Decision:</b> Client requires Arabic + English support.</li>
+          <li><b>Decision:</b> Dashboard must be delivered by Aug 5.</li>
+          <li><b>Decision:</b> Testing starts only after API integration.</li>
+          <li><b>Action:</b> Ahmed — finish API by Jul 18.</li>
+          <li><b>Action:</b> Sara — complete UI by Jul 15 <i>(done)</i>.</li>
+          <li><b>Action:</b> Mona — prepare testing plan by Jul 20.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="grid" style="margin-top:20px;">
+    <div class="card">
+      <h2><span class="ic">🚀</span>Next Actions</h2>
+      <ul class="clean action">
+        <li>Resolve the incomplete-dataset issue immediately — it blocks downstream API and testing work.</li>
+        <li>Add the Aug 5 client dashboard as a formally owned milestone in the Project Tracker.</li>
+        <li>Re-validate the Jul 18 → Jul 20 API-to-testing gap; add buffer or adjust dates.</li>
+        <li>Confirm whether "API documentation delay" (Minutes) and "API delay" (Risk Register) are the same item.</li>
+        <li>Document a name-to-role mapping for the four meeting attendees.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><span class="ic">💡</span>Strategic Recommendations</h2>
+      <ul class="clean">
+        <li><b>1. De-risk the dataset now.</b> It's the only High/High risk and already active — fixing it protects every downstream deadline.</li>
+        <li><b>2. Own the client-facing dashboard.</b> Give it a task, an owner, and a lead-time buffer before Aug 5 — right now it's a decision, not a plan.</li>
+        <li><b>3. Close governance gaps.</b> Map roles to names, confirm requirements are frozen with the client, and document the data-security approach before scope or compliance issues surface late.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="foot">INSIGHTOS · EXECUTIVE INTELLIGENCE POWERED BY AI · GENERATED FROM UPLOADED PROJECT DOCUMENTS</div>
+
+</div>
+</body>
+</html>
