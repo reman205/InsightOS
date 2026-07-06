@@ -1,20 +1,32 @@
-# 🏥 InsightOS – Hospital AI Executive Dashboard
+# 🏥 InsightOS
+
+> AI-powered Executive Intelligence Dashboard for Hospital Management
+
+![Status](https://img.shields.io/badge/Status-Completed-success)
+![AI](https://img.shields.io/badge/AI-Powered-blue)
+![HTML](https://img.shields.io/badge/HTML-5-orange)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)
+
+---
 
 ## 📖 Overview
 
-InsightOS is an AI-powered executive dashboard designed for hospitals to help decision-makers monitor operational performance through intelligent analytics and real-time insights.
+InsightOS is an AI-powered executive dashboard designed to help hospital leaders transform scattered project documents into actionable executive insights.
 
-The dashboard presents key hospital metrics in a modern interface, enabling executives to quickly identify trends, improve efficiency, and support data-driven decisions.
+Instead of manually reviewing meeting minutes, project trackers, and reports, the dashboard automatically summarizes project status, identifies risks, extracts deadlines, and provides strategic recommendations.
 
 ---
 
 ## ✨ Features
 
-- 📊 Executive KPI Dashboard
-- 🤖 AI-generated Insights
-- 📈 Interactive Charts
-- 🏥 Hospital Performance Monitoring
-- 📱 Responsive Modern Interface
+- 🤖 AI-powered executive summaries
+- 📊 KPI dashboard
+- ⚠️ Automatic risk detection
+- 📅 Timeline & milestone tracking
+- 👥 Team responsibility analysis
+- 📈 Project progress monitoring
+- 💡 Strategic recommendations
+- 🌍 Modern responsive interface
 
 ---
 
@@ -26,27 +38,22 @@ The dashboard presents key hospital metrics in a modern interface, enabling exec
 
 ---
 
-## 📸 Screenshots
+## 📸 Preview
 
-### Dashboard
-
-> Add a screenshot here.
-
-### AI Insights
-
-> Add another screenshot here.
+(Add screenshots here)
 
 ---
 
-## 🎯 Project Goal
+## 🎯 Objective
 
-To demonstrate how Artificial Intelligence and modern dashboards can support hospital executives in making faster and more informed decisions.
+Reduce manual project reporting by transforming multiple project documents into an interactive executive dashboard powered by Artificial Intelligence.
 
 ---
 
 ## 👩‍💻 Author
 
-**Reman Hussam Ghawanni**
+Reman Hussam Ghawanni
 
 Artificial Intelligence Student
+
 Taibah University
