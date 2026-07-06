@@ -40,8 +40,7 @@ Instead of manually reviewing meeting minutes, project trackers, and reports, th
 
 ## 📸 Preview
 
-(Add screenshots here)
-
+![InsightOS Dashboard](assets/screenshots/dashboard.jpeg)
 ---
 
 ## 🎯 Objective
