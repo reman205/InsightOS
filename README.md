@@ -1,9 +1,5 @@
 # 🏥 InsightOS
 
-## 🌐 Live Demo
-
-👉 https://reman205.github.io/InsightOS/
-
 <p align="center">
 
 <a href="https://reman205.github.io/InsightOS/">
