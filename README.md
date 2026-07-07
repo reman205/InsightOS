@@ -13,8 +13,6 @@
 ![Project Status](https://img.shields.io/badge/Status-Completed-success)
 ![Project Type](https://img.shields.io/badge/Type-Individual%20Project-orange)
 ![AI](https://img.shields.io/badge/AI-Powered-blue)
-![HTML](https://img.shields.io/badge/HTML-5-orange)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)
 
 ---
 
