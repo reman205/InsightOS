@@ -1,5 +1,13 @@
 # 🏥 InsightOS
 
+<p align="center">
+
+<a href="https://reman205.github.io/InsightOS/">
+<img src="https://img.shields.io/badge/🌐 Live Demo-Visit Website-0A66C2?style=for-the-badge">
+</a>
+
+</p>
+
 > AI-powered Executive Intelligence Dashboard for Hospital Management
 
 ![Status](https://img.shields.io/badge/Status-Completed-success)
@@ -38,7 +46,7 @@ Instead of manually reviewing meeting minutes, project trackers, and reports, th
 
 ---
 
-## 📸 Preview
+## Preview
 
 ![InsightOS Dashboard](assets/screenshots/dashboard.jpeg)
 ---
