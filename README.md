@@ -59,7 +59,7 @@ Reduce manual project reporting by transforming multiple project documents into 
 
 ## 👩‍💻 Author
 
-Reman Hussam Ghawanni
+**Reman Hussam Ghawanni**
 
 Artificial Intelligence Student
 
