@@ -1,4 +1,7 @@
 # 🏥 InsightOS
+![Project Status](https://img.shields.io/badge/Status-Completed-success)
+
+![Project Type](https://img.shields.io/badge/Type-Individual%20Project-orange)
 
 <p align="center">
 
